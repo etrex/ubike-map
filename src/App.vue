@@ -63,13 +63,16 @@ export default {
   },
   watch: {
     currentDist() {
+      this.updateView();
+    },
+  },
+  methods: {
+    updateView() {
       this.removeMarkers(this.currentBikes);
       this.currentBikes = this.ubikes.filter((bike) => bike.dist === this.select.dist);
       this.addMarkers(this.currentBikes);
       this.focusToMarkers(this.currentBikes);
     },
-  },
-  methods: {
     removeMarkers(bikes) {
       bikes.forEach((bike) => {
         this.OSMap.removeLayer(bike.marker);
@@ -100,6 +103,7 @@ export default {
           marker: L.marker([bike.lat, bike.lng]).bindPopup(popupTemplate),
         };
       });
+      this.updateView();
     });
   },
   mounted() {
